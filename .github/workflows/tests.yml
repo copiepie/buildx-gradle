@@ -7,7 +7,6 @@ jobs:
   runTests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
@@ -18,5 +17,6 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Run tests
+        uses: actions/checkout@v2
         run: |
-          './gradlew test'
+          ./gradlew test
