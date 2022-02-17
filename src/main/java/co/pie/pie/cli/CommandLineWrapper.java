@@ -1,6 +1,7 @@
 package co.pie.pie.cli;
 
 import org.apache.commons.lang3.StringUtils;
+import org.gradle.api.GradleException;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +24,7 @@ public class CommandLineWrapper {
       procOutput = new String(process.getErrorStream().readAllBytes(), StandardCharsets.UTF_8);
       System.out.println(procOutput);
       if (process.exitValue() != 0) {
-        throw new IllegalStateException("Command execution failed");
+        throw new GradleException("Command execution failed");
       }
     }
     System.out.println(procOutput);

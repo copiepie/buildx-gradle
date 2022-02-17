@@ -1,9 +1,11 @@
 package co.pie.pie
 
+import co.pie.pie.util.DockerCommandUtil
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
 import spock.lang.TempDir
+import spock.lang.Unroll
 
 
 class BuildxPluginIntegrationTest extends Specification {
@@ -20,13 +22,14 @@ class BuildxPluginIntegrationTest extends Specification {
         """
     }
 
-    def "Image is created successfully"() {
+    @Unroll
+    def "Image created #label"() {
         given:
-        String imageId = UUID.randomUUID().toString()
-        File dockerFile = createDockerFile()
+        File dockerFile = "${dockerFileCreator}"(testProjectDir)
+        String tag = "test/${UUID.randomUUID().toString()}"
         buildFile << """
             buildxImage {
-                imageTag = 'test/$imageId'
+                imageTag = '$tag'
                 dockerfilePath = file('${dockerFile.name}')
                 pushImageToRemote = false
                 targetPlatforms = ['linux/arm64']
@@ -38,20 +41,36 @@ class BuildxPluginIntegrationTest extends Specification {
                 .withProjectDir(testProjectDir)
                 .withArguments('buildxImage')
                 .withPluginClasspath()
-                .build()
+                ."${buildOrFail}"()
         then:
         println result.output
-        result.task(':buildxImage').outcome == TaskOutcome.SUCCESS
+        result.task(':buildxImage').outcome == outcome
+        result.output.contains(expectedMessageContent)
+
+        cleanup:
+        DockerCommandUtil.removeImage(tag)
+
+        where:
+        dockerFileCreator        | outcome             | buildOrFail    | label        | expectedMessageContent
+        'createDockerFile'       | TaskOutcome.SUCCESS | 'build'        | 'successful' | 'sha256'
+        'createFaultyDockerFile' | TaskOutcome.FAILED  | 'buildAndFail' | 'failed'     | 'pull access denied'
     }
 
-    File createDockerFile() {
-        File dockerFile = new File(testProjectDir, 'Dockerfile')
+    File createDockerFile(testDir) {
+        File dockerFile = new File(testDir, 'Dockerfile')
         dockerFile << """
-        FROM --platform=\$BUILDPLATFORM node:12.13.0-alpine as build
-        
-        FROM nginx
-        EXPOSE 3000
-"""
+            FROM --platform=\$BUILDPLATFORM node:12.13.0-alpine as build
+            
+            FROM nginx
+            EXPOSE 3000
+        """
         dockerFile
+    }
+
+    File createFaultyDockerFile(testDir) {
+        File dockerFile = new File(testDir, 'Dockerfile')
+        dockerFile << """
+            FROM --platform=\$BUILDPLATFORM random:random as build
+        """
     }
 }

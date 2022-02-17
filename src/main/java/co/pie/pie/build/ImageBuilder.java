@@ -3,6 +3,7 @@ package co.pie.pie.build;
 import co.pie.pie.cli.CommandLineWrapper;
 import co.pie.pie.util.Utils;
 import org.apache.commons.lang3.StringUtils;
+import org.gradle.api.GradleException;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class ImageBuilder {
         registerImageLocally();
       }
     } catch (IOException | InterruptedException e) {
-      throw new IllegalStateException("Build via buildx failed", e);
+      throw new GradleException("Build via buildx failed", e);
     }
   }
 
@@ -52,7 +53,7 @@ public class ImageBuilder {
           "-c",
           String.format("cat out.tar | docker import - %s", imageTag));
     } catch (IOException | InterruptedException e) {
-      throw new IllegalStateException("Image import to local registry failed", e);
+      throw new GradleException("Image import to local registry failed", e);
     }
   }
 }
