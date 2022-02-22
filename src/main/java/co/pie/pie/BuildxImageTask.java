@@ -7,29 +7,47 @@ import org.gradle.api.file.RegularFileProperty;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.InputFile;
 import org.gradle.api.tasks.TaskAction;
 
+import java.io.File;
 import java.util.List;
 
 public abstract class BuildxImageTask extends DefaultTask {
-  @Input Property<String> imageTag;
+  @Input String imageTag;
+
+  @InputFile
+  File dockerfilePath;
+
+  @Input Boolean pushImageToRemote;
 
   @Input
-  RegularFileProperty dockerfilePath;
-
-  @Input Property<Boolean> pushImageToRemote;
-
-  @Input
-  ListProperty<String> targetPlatforms;
+  List<String> targetPlatforms;
 
   @TaskAction
   public void buildxImage() {
     ImageBuilder imageBuilder =
         new ImageBuilder(
-            StringUtils.join(targetPlatforms.get(), ","),
-            dockerfilePath.get().getAsFile(),
-            imageTag.get(),
-            pushImageToRemote.get());
+            StringUtils.join(targetPlatforms, ","),
+            dockerfilePath,
+            imageTag,
+            pushImageToRemote);
     imageBuilder.buildImage();
+  }
+
+  public String getImageTag() {
+    return imageTag;
+  }
+
+  public File getDockerfilePath() {
+    return dockerfilePath;
+  }
+
+  public Boolean getPushImageToRemote() {
+    return pushImageToRemote;
+  }
+
+  public List<String> getTargetPlatforms() {
+    return targetPlatforms;
   }
 }

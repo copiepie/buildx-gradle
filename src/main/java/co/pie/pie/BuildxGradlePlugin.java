@@ -17,10 +17,10 @@ public class BuildxGradlePlugin implements Plugin<Project> {
             t -> {
               BuildxGradleExtension extension =
                   project.getExtensions().findByType(BuildxGradleExtension.class);
-              t.imageTag = extension.getImageTag();
-              t.dockerfilePath = extension.getDockerfilePath();
-              t.targetPlatforms = extension.getTargetPlatforms();
-              t.pushImageToRemote = extension.getPushImageToRemote();
+              t.imageTag = extension.getImageTag().get();
+              t.dockerfilePath = extension.getDockerfilePath().get().getAsFile();
+              t.targetPlatforms = extension.getTargetPlatforms().get();
+              t.pushImageToRemote = extension.getPushImageToRemote().get();
             });
   }
 }
