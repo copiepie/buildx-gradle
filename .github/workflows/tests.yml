@@ -5,7 +5,10 @@ on:
 
 jobs:
   runTests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-2019]
     steps:
       - name: Set up JDK
         uses: actions/setup-java@v1
