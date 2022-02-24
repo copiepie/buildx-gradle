@@ -13,6 +13,11 @@ class DockerCommandUtil {
         }
     }
 
+    static String getImageSize(String tag) {
+        Process process = executeCommand('sh', '-c', "docker image ls ${tag} --format {{.Size}}")
+        return getProcessOutput(process)
+    }
+
     static boolean imageExists(String tag) {
         Process process = executeCommand('sh', '-c', "docker image ls $tag | wc -l")
         int lines = Integer.valueOf(getProcessOutput(process))

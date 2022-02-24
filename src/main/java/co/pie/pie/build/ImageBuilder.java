@@ -14,6 +14,8 @@ public class ImageBuilder {
   private final String imageTag;
   private final boolean pushImage;
 
+  private static final String TAR_FILENAME = "out.tar";
+
   public ImageBuilder(
       String targetPlatforms, File dockerfilePath, String imageTag, boolean pushImage) {
     this.targetPlatforms = targetPlatforms;
@@ -31,11 +33,10 @@ public class ImageBuilder {
       sb.append(" -t ")
           .append(imageTag)
           .append(" ")
-          .append(Utils.pushOrKeepLocally(pushImage))
+          .append(Utils.pushOrKeepLocally(pushImage, TAR_FILENAME))
           .append(" .");
 
-      CommandLineWrapper.executeCommand(
-          dockerfilePath.getParent(), "sh", "-c", sb.toString());
+      CommandLineWrapper.executeCommand(dockerfilePath.getParent(), "sh", "-c", sb.toString());
 
       if (!pushImage) {
         registerImageLocally();
@@ -51,7 +52,9 @@ public class ImageBuilder {
           dockerfilePath.getParent(),
           "sh",
           "-c",
-          String.format("cat out.tar | docker import - %s", imageTag));
+          String.format(
+              "cat %s | docker import - %s",
+              Utils.prependTmpDirToFilename(TAR_FILENAME), imageTag));
     } catch (IOException | InterruptedException e) {
       throw new GradleException("Image import to local registry failed", e);
     }

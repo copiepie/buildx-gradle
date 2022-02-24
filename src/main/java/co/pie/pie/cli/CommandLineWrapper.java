@@ -6,6 +6,7 @@ import org.gradle.api.GradleException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class CommandLineWrapper {
   public static void executeCommand(String workingDir, String... commandVector)

@@ -46,14 +46,17 @@ class BuildxPluginIntegrationTest extends Specification {
         println result.output
         result.task(':buildxImage').outcome == outcome
         result.output.contains(expectedMessageContent)
+        if (checkImageSizeNotZero) {
+            assert DockerCommandUtil.getImageSize(tag) != '0B'
+        }
 
         cleanup:
         DockerCommandUtil.removeImage(tag)
 
         where:
-        dockerFileCreator        | outcome             | buildOrFail    | label        | expectedMessageContent
-        'createDockerFile'       | TaskOutcome.SUCCESS | 'build'        | 'successful' | 'sha256'
-        'createFaultyDockerFile' | TaskOutcome.FAILED  | 'buildAndFail' | 'failed'     | 'pull access denied'
+        dockerFileCreator        | outcome             | buildOrFail    | label        | expectedMessageContent | checkImageSizeNotZero
+        'createDockerFile'       | TaskOutcome.SUCCESS | 'build'        | 'successful' | 'sha256'               | true
+        'createFaultyDockerFile' | TaskOutcome.FAILED  | 'buildAndFail' | 'failed'     | 'pull access denied'   | false
     }
 
     File createDockerFile(testDir) {
