@@ -1,0 +1,14 @@
+name: Publish
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          ./gradlew publish
+        env:
+          PKG_USERNAME: ${{ PKG_USER }}
+          PKG_PASSWORD: ${{ PKG_PW }}
