@@ -4,26 +4,28 @@ import co.pie.pie.cli.CommandLineWrapper;
 import co.pie.pie.util.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.GradleException;
-import org.gradle.api.tasks.Optional;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ImageBuilder {
-  private final String targetPlatforms;
+  private final List<String> targetPlatforms;
   private final File dockerfilePath;
   private final String imageTag;
   private final boolean pushImage;
-  private final String buildArgs;
+  private final Map<String, String> buildArgs;
 
   private static final String TAR_FILENAME = "out.tar";
 
   public ImageBuilder(
-      String targetPlatforms,
+      List<String> targetPlatforms,
       File dockerfilePath,
       String imageTag,
       boolean pushImage,
-      String buildArgs) {
+      Map<String, String> buildArgs) {
     this.targetPlatforms = targetPlatforms;
     this.dockerfilePath = dockerfilePath;
     this.imageTag = imageTag;
@@ -33,20 +35,9 @@ public class ImageBuilder {
 
   public void buildImage() {
     try {
-      StringBuilder sb = new StringBuilder("docker buildx build");
-      if (StringUtils.isNotBlank(targetPlatforms)) {
-        sb.append(" --platform=").append(targetPlatforms);
-      }
-      if (StringUtils.isNotBlank(buildArgs)) {
-        sb.append(" --build-arg ").append(buildArgs);
-      }
-      sb.append(" -t ")
-          .append(imageTag)
-          .append(" ")
-          .append(Utils.pushOrKeepLocally(pushImage, TAR_FILENAME))
-          .append(" .");
+      String dockerBuildCommand = createDockerBuildCommand();
 
-      CommandLineWrapper.executeCommand(dockerfilePath.getParent(), "sh", "-c", sb.toString());
+      CommandLineWrapper.executeCommand(dockerfilePath.getParent(), "sh", "-c", dockerBuildCommand);
 
       if (!pushImage) {
         registerImageLocally();
@@ -54,6 +45,33 @@ public class ImageBuilder {
     } catch (IOException | InterruptedException e) {
       throw new GradleException("Build via buildx failed", e);
     }
+  }
+
+  public String createDockerBuildCommand() {
+    StringBuilder sb = new StringBuilder("docker buildx build");
+    if (targetPlatforms != null && !targetPlatforms.isEmpty()) {
+      sb.append(" --platform=").append(concatTargetPlatforms());
+    }
+    if (buildArgs != null && !buildArgs.isEmpty()) {
+      sb.append(" ").append(concatBuildArgs());
+    }
+    sb.append(" -t ")
+        .append(imageTag)
+        .append(" ")
+        .append(Utils.pushOrKeepLocally(pushImage, TAR_FILENAME))
+        .append(" .");
+
+    return sb.toString();
+  }
+
+  private String concatBuildArgs() {
+    return buildArgs.entrySet().stream()
+        .map(e -> String.format("--build-arg %s=%s", e.getKey(), e.getValue()))
+        .collect(Collectors.joining(" "));
+  }
+
+  private String concatTargetPlatforms() {
+    return StringUtils.join(targetPlatforms, ",");
   }
 
   public void registerImageLocally() {

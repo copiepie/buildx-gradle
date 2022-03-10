@@ -10,6 +10,7 @@ import org.gradle.api.tasks.TaskAction;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 public abstract class BuildxImageTask extends DefaultTask {
   @Input String imageTag;
@@ -24,13 +25,13 @@ public abstract class BuildxImageTask extends DefaultTask {
 
   @Input
   @Optional
-  String buildArgs;
+  Map<String, String> buildArgs;
 
   @TaskAction
   public void buildxImage() {
     ImageBuilder imageBuilder =
         new ImageBuilder(
-            StringUtils.join(targetPlatforms, ","),
+            targetPlatforms,
             dockerfilePath,
             imageTag,
             pushImageToRemote,
@@ -54,5 +55,5 @@ public abstract class BuildxImageTask extends DefaultTask {
     return targetPlatforms;
   }
 
-  public String getBuildArgs() { return buildArgs; }
+  public Map<String, String> getBuildArgs() { return buildArgs; }
 }

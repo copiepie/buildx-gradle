@@ -1,4 +1,4 @@
-package co.pie.pie
+package co.pie.pie.functional
 
 import co.pie.pie.util.DockerCommandUtil
 import org.gradle.testkit.runner.GradleRunner
@@ -33,6 +33,7 @@ class BuildxPluginIntegrationTest extends Specification {
                 dockerfilePath = file('${dockerFile.name}')
                 pushImageToRemote = false
                 targetPlatforms = ['linux/arm64']
+                buildArgs = [testArg1: 'val1', testArg2: 'val2']
             }
         """
 
@@ -63,6 +64,8 @@ class BuildxPluginIntegrationTest extends Specification {
         File dockerFile = new File(testDir, 'Dockerfile')
         dockerFile << """
             FROM --platform=\$BUILDPLATFORM node:12.13.0-alpine as build
+            ARG testArg1
+            ARG testArg2
             
             FROM nginx
             EXPOSE 3000
