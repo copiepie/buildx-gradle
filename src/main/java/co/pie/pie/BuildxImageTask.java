@@ -24,6 +24,9 @@ public abstract class BuildxImageTask extends DefaultTask {
   @Input
   List<String> targetPlatforms;
 
+  @Input
+  String buildArgs;
+
   @TaskAction
   public void buildxImage() {
     ImageBuilder imageBuilder =
@@ -31,7 +34,8 @@ public abstract class BuildxImageTask extends DefaultTask {
             StringUtils.join(targetPlatforms, ","),
             dockerfilePath,
             imageTag,
-            pushImageToRemote);
+            pushImageToRemote,
+            buildArgs);
     imageBuilder.buildImage();
   }
 

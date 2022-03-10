@@ -6,13 +6,13 @@ plugins {
 }
 
 group 'co.pie.pie'
-version '1.0-SNAPSHOT'
+version '1.6-SNAPSHOT'
 
 
 gradlePlugin {
     plugins {
         buildxGradle {
-            id = 'co.pie.pie.buildxGradle'
+            id = 'co.pie.pie.buildx-gradle-plugin'
             implementationClass = 'co.pie.pie.BuildxGradlePlugin'
         }
     }
@@ -33,6 +33,13 @@ publishing {
             }
         }
     }
+    publications {
+        maven(MavenPublication) {
+            groupId = 'co.pie.pie'
+            artifactId = 'buildx-gradle-plugin'
+            version = project.version
+        }
+    }
 }
 
 dependencies {
@@ -41,7 +48,7 @@ dependencies {
     implementation group: 'commons-cli', name: 'commons-cli', version: '1.5.0'
     implementation group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
-    testImplementation ('org.spockframework:spock-core:2.2-M1-groovy-3.0') {
+    testImplementation('org.spockframework:spock-core:2.2-M1-groovy-3.0') {
         exclude module: 'groovy-all'
     }
 

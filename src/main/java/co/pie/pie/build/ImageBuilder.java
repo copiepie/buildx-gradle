@@ -13,15 +13,21 @@ public class ImageBuilder {
   private final File dockerfilePath;
   private final String imageTag;
   private final boolean pushImage;
+  private final String buildArgs;
 
   private static final String TAR_FILENAME = "out.tar";
 
   public ImageBuilder(
-      String targetPlatforms, File dockerfilePath, String imageTag, boolean pushImage) {
+      String targetPlatforms,
+      File dockerfilePath,
+      String imageTag,
+      boolean pushImage,
+      String buildArgs) {
     this.targetPlatforms = targetPlatforms;
     this.dockerfilePath = dockerfilePath;
     this.imageTag = imageTag;
     this.pushImage = pushImage;
+    this.buildArgs = buildArgs;
   }
 
   public void buildImage() {

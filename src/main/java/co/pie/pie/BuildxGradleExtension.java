@@ -11,4 +11,5 @@ public abstract class BuildxGradleExtension {
   abstract RegularFileProperty getDockerfilePath();
   abstract Property<Boolean> getPushImageToRemote();
   abstract ListProperty<String> getTargetPlatforms();
+  abstract Property<String> getBuildArgs();
 }
