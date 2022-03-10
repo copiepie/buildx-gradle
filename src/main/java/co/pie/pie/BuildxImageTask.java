@@ -3,11 +3,9 @@ package co.pie.pie;
 import co.pie.pie.build.ImageBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.DefaultTask;
-import org.gradle.api.file.RegularFileProperty;
-import org.gradle.api.provider.ListProperty;
-import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
+import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.TaskAction;
 
 import java.io.File;
@@ -25,6 +23,7 @@ public abstract class BuildxImageTask extends DefaultTask {
   List<String> targetPlatforms;
 
   @Input
+  @Optional
   String buildArgs;
 
   @TaskAction
@@ -54,4 +53,6 @@ public abstract class BuildxImageTask extends DefaultTask {
   public List<String> getTargetPlatforms() {
     return targetPlatforms;
   }
+
+  public String getBuildArgs() { return buildArgs; }
 }

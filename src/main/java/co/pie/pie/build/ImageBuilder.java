@@ -4,6 +4,7 @@ import co.pie.pie.cli.CommandLineWrapper;
 import co.pie.pie.util.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.GradleException;
+import org.gradle.api.tasks.Optional;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +36,9 @@ public class ImageBuilder {
       StringBuilder sb = new StringBuilder("docker buildx build");
       if (StringUtils.isNotBlank(targetPlatforms)) {
         sb.append(" --platform=").append(targetPlatforms);
+      }
+      if (StringUtils.isNotBlank(buildArgs)) {
+        sb.append(" --build-arg ").append(buildArgs);
       }
       sb.append(" -t ")
           .append(imageTag)

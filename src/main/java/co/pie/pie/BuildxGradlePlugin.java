@@ -21,7 +21,7 @@ public class BuildxGradlePlugin implements Plugin<Project> {
               t.dockerfilePath = extension.getDockerfilePath().get().getAsFile();
               t.targetPlatforms = extension.getTargetPlatforms().get();
               t.pushImageToRemote = extension.getPushImageToRemote().get();
-              t.buildArgs = extension.getBuildArgs().get();
+              t.buildArgs = extension.getBuildArgs().getOrNull();
             });
   }
 }
