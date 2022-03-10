@@ -19,5 +19,6 @@ buildxImage {
     dockerfilePath = file('Dockerfile')
     pushImageToRemote = false/true
     targetPlatforms = ['linux/arm64', 'linux/arm64']
+    buildArgs = [arg1: 'onearg', arg2: 'twoarg']
 }
 ```
