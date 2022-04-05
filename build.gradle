@@ -21,6 +21,12 @@ gradlePlugin {
     }
 }
 
+pluginBundle {
+    website = 'https://github.com/copiepie/buildx-gradle#readme'
+    vcsUrl = 'https://github.com/copiepie/buildx-gradle'
+    tags = ['docker', 'buildx', 'multiplatform']
+}
+
 repositories {
     mavenCentral()
 }
