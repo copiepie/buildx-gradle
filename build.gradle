@@ -14,6 +14,8 @@ gradlePlugin {
         buildxGradle {
             id = 'co.pie.pie.buildx-gradle-plugin'
             implementationClass = 'co.pie.pie.BuildxGradlePlugin'
+            displayName = 'Buildx Gradle Plugin'
+            description = 'This plugin enables building multi-platform images by using docker's buildx and buildkit'
         }
     }
 }
