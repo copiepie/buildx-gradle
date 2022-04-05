@@ -1,7 +1,6 @@
 # A Gradle plugin for buildx
-___
 
-## Behind the scenes
+## A few words
 This plugin just invokes shell commands to run a build. Having buildx available on your system  
 is a prerequisite.  
 Also, if you'd like to push your build to a remote registry, you'd have to perform the login before  
@@ -11,6 +10,8 @@ to appear in the local registry. This is achieved by exporting the image to a ta
 ``` bash 
 cat out.tar | docker import
 ```
+## Restrictions
+Since it currently can't be tested on Windows this plugin does not support it as well. The only supported platforms currently are Linux and MacOS.
 
 ## How to conf
 ```groovy
