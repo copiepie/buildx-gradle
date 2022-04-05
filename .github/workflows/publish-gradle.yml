@@ -1,0 +1,17 @@
+name: Publish Gradle
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: '11'
+      - name: Checkout
+        uses: actions/checkout@v2
+      - run: |
+          ./gradlew publishPlugin -Pgradle.publish.key=${{ secrets.gradle_publish_key }} -Pgradle.publish.secret=${{ secrets.gradle_publish_secret }}

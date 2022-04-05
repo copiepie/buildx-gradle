@@ -3,19 +3,20 @@ plugins {
     id 'groovy'
     id 'java-gradle-plugin'
     id 'maven-publish'
+    id 'com.gradle.plugin-publish' version '1.0.0-rc-1'
 }
 
 group 'co.pie.pie'
-version '1.6-SNAPSHOT'
+version '1.0.0'
 
 
 gradlePlugin {
     plugins {
         buildxGradle {
-            id = 'co.pie.pie.buildx-gradle-plugin'
+            id = 'io.github.copiepie.buildx-gradle-plugin'
             implementationClass = 'co.pie.pie.BuildxGradlePlugin'
             displayName = 'Buildx Gradle Plugin'
-            description = 'This plugin enables building multi-platform images by using docker's buildx and buildkit'
+            description = 'This plugin enables building multi-platform images by using docker buildx and buildkit'
         }
     }
 }
