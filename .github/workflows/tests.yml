@@ -34,4 +34,5 @@ jobs:
         run: |
           ./gradlew unitTests
       - name: Run Functional Tests
+        run: |
           ./gradlew functionalTests
