@@ -1,6 +1,7 @@
-package co.pie.pie.functional
+package io.github.perpk.buildx.functional
 
-import co.pie.pie.util.DockerCommandUtil
+
+import io.github.perpk.buildx.util.DockerCommandUtil
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification

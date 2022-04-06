@@ -1,4 +1,4 @@
-package co.pie.pie;
+package io.github.perpk.buildx;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;

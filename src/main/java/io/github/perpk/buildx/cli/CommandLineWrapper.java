@@ -1,4 +1,4 @@
-package co.pie.pie.cli;
+package io.github.perpk.buildx.cli;
 
 import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.GradleException;

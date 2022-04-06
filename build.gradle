@@ -6,14 +6,14 @@ plugins {
     id 'com.gradle.plugin-publish' version '1.0.0-rc-1'
 }
 
-group 'co.pie.pie'
+group 'io.github.perpk.buildx'
 version '1.0.0'
 
 
 gradlePlugin {
     plugins {
         buildxGradle {
-            id = 'co.pie.pie.buildx-gradle-plugin'
+            id = 'io.github.perpk.buildx-gradle-plugin'
             implementationClass = 'co.pie.pie.BuildxGradlePlugin'
             displayName = 'Buildx Gradle Plugin'
             description = 'This plugin enables building multi-platform images by using docker buildx and buildkit'
@@ -44,7 +44,7 @@ publishing {
     }
     publications {
         maven(MavenPublication) {
-            groupId = 'co.pie.pie'
+            groupId = 'io.github.perpk.buildx'
             artifactId = 'buildx-gradle-plugin'
             version = project.version
         }

@@ -1,4 +1,4 @@
-package co.pie.pie.util;
+package io.github.perpk.buildx.util;
 
 import org.apache.commons.lang3.StringUtils;
 

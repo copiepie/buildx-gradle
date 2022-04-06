@@ -1,6 +1,7 @@
-package co.pie.pie.unit
+package io.github.perpk.buildx.unit
 
-import co.pie.pie.build.ImageBuilder
+
+import io.github.perpk.buildx.build.ImageBuilder
 import spock.lang.Specification
 import spock.lang.Unroll
 

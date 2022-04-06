@@ -1,7 +1,7 @@
-package co.pie.pie.build;
+package io.github.perpk.buildx.build;
 
-import co.pie.pie.cli.CommandLineWrapper;
-import co.pie.pie.util.Utils;
+import io.github.perpk.buildx.cli.CommandLineWrapper;
+import io.github.perpk.buildx.util.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.gradle.api.GradleException;
 

@@ -1,7 +1,6 @@
-package co.pie.pie;
+package io.github.perpk.buildx;
 
-import co.pie.pie.build.ImageBuilder;
-import org.apache.commons.lang3.StringUtils;
+import io.github.perpk.buildx.build.ImageBuilder;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFile;
