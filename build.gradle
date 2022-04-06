@@ -14,7 +14,7 @@ gradlePlugin {
     plugins {
         buildxGradle {
             id = 'io.github.perpk.buildx-gradle-plugin'
-            implementationClass = 'co.pie.pie.BuildxGradlePlugin'
+            implementationClass = 'io.github.perpk.buildx.BuildxGradlePlugin'
             displayName = 'Buildx Gradle Plugin'
             description = 'This plugin enables building multi-platform images by using docker buildx and buildkit'
         }
