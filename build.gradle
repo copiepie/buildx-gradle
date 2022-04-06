@@ -69,3 +69,16 @@ test {
         exceptionFormat "full"
     }
 }
+
+task functionalTests(type: Test) {
+    filter {
+        exclude '**/unit/**'
+    }
+}
+
+task unitTests(type: Test) {
+    filter {
+        exclude '**/functional/**'
+    }
+}
+
