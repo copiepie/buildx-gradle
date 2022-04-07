@@ -1,4 +1,4 @@
-package io.github.perpk.buildx.util
+package io.github.perpk.buildx
 
 import org.apache.commons.lang3.StringUtils
 

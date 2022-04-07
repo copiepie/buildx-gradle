@@ -2,6 +2,7 @@ package io.github.perpk.buildx.unit
 
 
 import io.github.perpk.buildx.build.ImageBuilder
+import io.github.perpk.buildx.util.Utils
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -27,6 +28,6 @@ class ImageBuilderSpec extends Specification {
         where:
         pushImage | command
         true      | 'docker buildx build --platform=linux/amd64,linux/arm64 --build-arg buildArg1=valueOne --build-arg buildArg2=valueTwo -t mock/dockertag:4 --push .'
-        false     | "docker buildx build --platform=linux/amd64,linux/arm64 --build-arg buildArg1=valueOne --build-arg buildArg2=valueTwo -t mock/dockertag:4 -o type=tar,dest=${System.getProperty("java.io.tmpdir")}out.tar ."
+        false     | "docker buildx build --platform=linux/amd64,linux/arm64 --build-arg buildArg1=valueOne --build-arg buildArg2=valueTwo -t mock/dockertag:4 -o type=tar,dest=${Utils.prependTmpDirToFilename(ImageBuilder.TAR_FILENAME)} ."
     }
 }

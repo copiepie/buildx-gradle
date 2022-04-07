@@ -1,7 +1,5 @@
-package io.github.perpk.buildx.functional
+package io.github.perpk.buildx
 
-
-import io.github.perpk.buildx.util.DockerCommandUtil
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.testkit.runner.TaskOutcome
 import spock.lang.Specification
@@ -18,7 +16,7 @@ class BuildxPluginIntegrationTest extends Specification {
         buildFile = new File(testProjectDir, 'build.gradle')
         buildFile << """
             plugins {
-                id 'co.pie.pie.buildxImagePlugin'
+                id 'io.github.perpk.buildx-gradle-plugin' version '1.0.0'
             }
         """
     }
@@ -42,7 +40,7 @@ class BuildxPluginIntegrationTest extends Specification {
         def result = GradleRunner.create()
                 .withProjectDir(testProjectDir)
                 .withArguments('buildxImage')
-                .withPluginClasspath()
+                .forwardOutput()
                 ."${buildOrFail}"()
         then:
         println result.output

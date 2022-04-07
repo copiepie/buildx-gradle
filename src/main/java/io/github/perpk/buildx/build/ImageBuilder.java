@@ -18,7 +18,7 @@ public class ImageBuilder {
   private final boolean pushImage;
   private final Map<String, String> buildArgs;
 
-  private static final String TAR_FILENAME = "out.tar";
+  public static final String TAR_FILENAME = "out.tar";
 
   public ImageBuilder(
       List<String> targetPlatforms,
