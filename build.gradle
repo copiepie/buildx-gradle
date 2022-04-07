@@ -9,6 +9,13 @@ plugins {
 group 'io.github.perpk.buildx'
 version '1.0.0'
 
+sourceSets {
+    functionalTests {
+        groovy.srcDir file("/src/functionalTests/groovy")
+        compileClasspath += main.output + configurations.testRuntimeClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+}
 
 gradlePlugin {
     plugins {
@@ -19,6 +26,7 @@ gradlePlugin {
             description = 'This plugin enables building multi-platform images by using docker buildx and buildkit'
         }
     }
+    testSourceSets sourceSets.functionalTests
 }
 
 pluginBundle {
@@ -60,25 +68,21 @@ dependencies {
     testImplementation('org.spockframework:spock-core:2.2-M1-groovy-3.0') {
         exclude module: 'groovy-all'
     }
-
+    functionalTestsImplementation(project)
 }
 
 test {
-    useJUnitPlatform()
     testLogging {
         exceptionFormat "full"
     }
 }
 
 task functionalTests(type: Test) {
-    filter {
-        exclude '**/unit/**'
-    }
+    group = 'verification'
+    testClassesDirs = sourceSets.functionalTests.output.classesDirs
+    classpath = sourceSets.functionalTests.runtimeClasspath
 }
 
-task unitTests(type: Test) {
-    filter {
-        exclude '**/functional/**'
-    }
+tasks.withType(Test) {
+    useJUnitPlatform()
 }
-

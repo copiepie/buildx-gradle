@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Run Unit Tests
         run: |
-          ./gradlew unitTests
+          ./gradlew test
       - name: Run Functional Tests
         run: |
           ./gradlew functionalTests
