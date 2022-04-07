@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'io.github.perpk.buildx'
-version '1.0.0'
+version '1.0.1-SNAPSHOT'
 
 sourceSets {
     functionalTests {
